@@ -1,0 +1,14 @@
+services:
+  revealjs:
+    image: node:lts-alpine
+    container_name: revealjs_dev
+    working_dir: /app
+    volumes:
+      - .:/app  # ESTO es lo que permite el "hot reload"
+      # Excluimos node_modules para que use los del contenedor (opcional pero recomendado en linux)
+      - /app/node_modules 
+    ports:
+      - "8000:8000"   # Servidor web
+      - "35729:35729" # Websocket para el LiveReload
+    # Instalamos dependencias si no existen y levantamos con host 0.0.0.0
+    command: sh -c "npm install && npm start -- --host=0.0.0.0"
