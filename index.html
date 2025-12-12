@@ -35,6 +35,7 @@
 				<p>OpenWrt es un sistema operativo basado en Linux para dispositivos embebidos (routers, access points,
 					etc).
 				</p>
+				<p><small>Un router es como una PC (CPU, RAM, almacenamiento, etc)</small></p>
 
 				<img src="img/router.png" width="60%" alt="Router">
 
@@ -82,9 +83,101 @@
 
 				<ul>
 					<li>Reutilización de hardware obsoleto</li>
-					<li>Seguridad</li>
+					<li>Seguridad (EOL routers)</li>
+					<li>Capacidad de instalar software útil</li>
+					<li>Capacidades empresariales para routers en un router hogareño</li>
+					<li>Fácil administración
+						<ul>
+							<li>Interface web (LuCI)</li>
+							<li>Aplicación Movil (LuCI Mobile)</li>
+						</ul>
+					</li>
 				</ul>
 
+			</section>
+
+			<section>
+				<h2>¿Qué podemos hacer con OpenWRT?</h2>
+				<small>
+					<ul>
+						<li>Configurar el router como un router tradicional (DHCP, DNS, NAT, etc)</li>
+						<li>Soporte a nuevas versiones de seguridad (WPA3, etc)</li>
+						<li>Capacidades avanzadas de red:
+							<ul>
+								<li>roaming WiFi (802.11r, 802.11k y 802.11v)</li>
+								<li>VLANs y QoS</li>
+								<li>Múltiples LANS</li>
+								<li>Múltiples WANs (balanced, failover, etc)</li>
+								<li>Multiple SSIDs</li>
+								<li>Firewall avanzado</li>
+							</ul>
+						</li>
+
+
+						<li>Instalar apps en nuestro router:
+							<ul>
+								<li>Adblock</li>
+								<li>OpenVPN/Wireguard</li>
+								<li>DDNS</li>
+								<li>Cliente torrent</li>
+								<li>Docker*</li>
+								<li>Entre muchos otros <a href="https://openwrt.org/packages/start" target="_blank">Ver
+										más</a></li>
+							</ul>
+						</li>
+
+					</ul>
+				</small>
+			</section>
+
+			<section>
+				<h2>¿Cómo se ve OpenWRT? (CLI)</h2>
+				<img src="img/cli.png" width="80%" alt="LuCI" style="border-radius: 10px;">
+			</section>
+
+			<section>
+				<h2>¿Cómo se ve OpenWRT? (GUI)</h2>
+				<img src="img/luci.png" width="70%" alt="LuCI" style="border-radius: 10px;">
+			</section>
+
+			<section>
+				<h2>¿Cómo se ve OpenWRT? (GUI Mobile)</h2>
+				<img src="img/luci_mobile.jpg" width="30%" alt="LuCI" style="border-radius: 10px;">
+			</section>
+
+			<section>
+				<h2>Instalación de OpenWRT</h2>
+				<p>Antes de instalar OpenVPN en nuestro router debemos asegurarnos que el hardware sea compatible.
+					Un flasheo incorrecto puede dañar "brickear" nuestro router.
+
+					<img src="img/bricked_router.png" width="80%" alt="Bricked Router" style="border-radius: 10px;">
+				</p>
+
+
+				<a href="https://toh.openwrt.org/?view=normal" target="_blank">Ver listado</a>
+
+			</section>
+
+			<section>
+				<h2>Instalación de OpenWRT</h2>
+				<p><a href="https://toh.openwrt.org/?view=normal" target="_blank">Listado de hardware compatible</a></p>
+
+				<img src="img/brick01.jpg" width="45%" alt="TOH" style="border-radius: 10px;">
+				<img src="img/brick02.jpg" width="45%" alt="TOH" style="border-radius: 10px;">
+				<small>
+					Recuperación router brickeado
+				</small>
+			</section>
+
+			<section>
+				<h2>¿Consultas?</h2>
+
+			</section>
+
+			<section>
+				<h2>Demo</h2>
+				<p><a href="https://openwrt.org/toh/tp-link/tl-wdr3500_v1" target="_blank">Instalación de OpenWRT en un
+						router TP-Link WDR3500</a></p>
 			</section>
 		</div>
 	</div>
