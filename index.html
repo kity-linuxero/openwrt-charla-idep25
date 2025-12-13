@@ -1,202 +1,277 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard del Evento</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --hover-bg: #334155;
+            --accent-blue: #3b82f6;
+            /* Charla */
+            --accent-orange: #f97316;
+            /* OpenWRT */
+            --accent-green: #10b981;
+            /* CTF */
+        }
 
-	<title>OpenWRT Charla - IDEP 2025</title>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-	<link rel="stylesheet" href="dist/reset.css">
-	<link rel="stylesheet" href="dist/reveal.css">
-	<link rel="stylesheet" href="dist/theme/league.css">
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-	<!-- Theme used for syntax highlighted code -->
-	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* --- DASHBOARD PRINCIPAL --- */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .activity-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Imágenes de fondo con overlay */
+        .activity-btn.charla {
+            background-image:
+                linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.6)),
+                url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80');
+        }
+
+        .activity-btn.taller {
+            background-image:
+                linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.6)),
+                url('https://tombatossals.github.io/instalar-openwrt/images/ini06.jpg');
+        }
+
+        .activity-btn.ctf {
+            background-image:
+                linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.6)),
+                url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80');
+        }
+
+        /* Bordes de color */
+        .activity-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            z-index: 2;
+        }
+
+        .activity-btn.charla::before {
+            background-color: var(--accent-blue);
+        }
+
+        .activity-btn.taller::before {
+            background-color: var(--accent-orange);
+        }
+
+        .activity-btn.ctf::before {
+            background-color: var(--accent-green);
+        }
+
+        .activity-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Efecto hover en imágenes (aclarar overlay) */
+        .activity-btn.charla:hover {
+            background-image: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80');
+        }
+
+        .activity-btn.taller:hover {
+            background-image: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4)), url('https://tombatossals.github.io/instalar-openwrt/images/ini06.jpg');
+        }
+
+        .activity-btn.ctf:hover {
+            background-image: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4)), url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80');
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            opacity: 0.7;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .activity-btn:hover .arrow {
+            transform: translateX(5px);
+            opacity: 1;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (min-width: 768px) {
+            .dashboard {
+                max-width: 900px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .activity-btn {
+                flex-direction: column;
+                align-items: flex-start;
+                height: 200px;
+                justify-content: flex-end;
+            }
+
+            .arrow {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+
+            .activity-btn::before {
+                width: 100%;
+                height: 6px;
+                top: 0;
+                bottom: auto;
+                left: 0;
+            }
+
+            /* Desktop Backgrounds */
+            .activity-btn.charla,
+            .activity-btn.taller,
+            .activity-btn.ctf {
+                background-image: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.5)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80');
+            }
+
+            .activity-btn.taller {
+                background-image: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.5)), url('https://tombatossals.github.io/instalar-openwrt/images/ini06.jpg');
+            }
+
+            .activity-btn.ctf {
+                background-image: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.5)), url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80');
+            }
+
+            .activity-btn.charla:hover {
+                background-image: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.3)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80');
+            }
+
+            .activity-btn.taller:hover {
+                background-image: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.3)), url('https://tombatossals.github.io/instalar-openwrt/images/ini06.jpg');
+            }
+
+            .activity-btn.ctf:hover {
+                background-image: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.3)), url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80');
+            }
+        }
+    </style>
 </head>
 
 <body>
-	<div class="reveal">
-		<div class="slides">
-			<section>
-				<h2>Libera tu Router con OpenWRT</h2>
 
-				<img src="img/openwrt_logo_text_vertical_white-512x384.png" width="30%" alt="OpenWRT">
+    <header>
+        <h1>Actividades del Evento: Fin de año IDEP 2025</h1>
+        <p class="subtitle">Selecciona una actividad para comenzar</p>
+    </header>
 
-				<h4>Software libre para todos y todas</h4>
+    <main class="dashboard">
+        <a href="sl_pba.html" class="activity-btn charla">
+            <div class="content">
+                <span class="label" style="color: var(--accent-blue)">Charla</span>
+                <span class="title">Software Libre en PBA</span>
+            </div>
+            <span class="arrow">→</span>
+        </a>
 
+        <a href="./openwrt.html" class="activity-btn taller">
+            <div class="content">
+                <span class="label" style="color: var(--accent-orange)">Taller</span>
+                <span class="title">Liberá tu router con OpenWRT</span>
+            </div>
+            <span class="arrow">→</span>
+        </a>
 
-			</section>
+        <a href="https://ctf.idepba.com.ar" target="_blank" class="activity-btn ctf">
+            <div class="content">
+                <span class="label" style="color: var(--accent-green)">CTF</span>
+                <span class="title">Hackear como juego</span>
+            </div>
+            <span class="arrow">→</span>
+        </a>
+    </main>
 
-			<section>
-
-				<h2>¿Qué es OpenWRT?</h2>
-
-				<p>OpenWrt es un sistema operativo basado en Linux para dispositivos embebidos (routers, access points,
-					etc).
-				</p>
-				<p><small>Un router es como una PC (CPU, RAM, almacenamiento, etc)</small></p>
-
-				<img src="img/router.png" width="60%" alt="Router">
-
-
-
-			</section>
-
-			<section>
-
-				<h2>Características principales</h2>
-
-
-				<ul>
-					<li>Software libre (<a href="https://github.com/openwrt/openwrt" target="_blank">Código fuente
-							accesible</a>) </li>
-					<li>Personalizable</li>
-					<li>Seguro (Comunidad activa)</li>
-					<li>Libre de publicidad</li>
-				</ul>
-
-
-
-
-			</section>
-
-			<section>
-				<h2>Componentes de OpenWRT</h2>
-				<small>
-					<ul>
-						<li>Kernel Linux</li>
-						<li>Paquetes de software (opkg)</li>
-						<li>Interfaz de usuario: CLI (Command Line Interface) y GUI Web Opcional</li>
-						<li>Hardware compatible (<a href="https://openwrt.org/toh/start" target="_blank">Ver
-								listado</a>)</li>
-					</ul>
-				</small>
-
-				<img src="img/openwrt_components_white.png" width="70%" alt="OpenWRT Components"
-					style="border-radius: 10px;">
-			</section>
-
-			<section>
-
-				<h2>¿Por qué usar OpenWRT?</h2>
-
-				<ul>
-					<li>Reutilización de hardware obsoleto</li>
-					<li>Seguridad (EOL routers)</li>
-					<li>Capacidad de instalar software útil</li>
-					<li>Capacidades empresariales para routers en un router hogareño</li>
-					<li>Fácil administración
-						<ul>
-							<li>Interface web (LuCI)</li>
-							<li>Aplicación Movil (LuCI Mobile)</li>
-						</ul>
-					</li>
-				</ul>
-
-			</section>
-
-			<section>
-				<h2>¿Qué podemos hacer con OpenWRT?</h2>
-				<small>
-					<ul>
-						<li>Configurar el router como un router tradicional (DHCP, DNS, NAT, etc)</li>
-						<li>Soporte a nuevas versiones de seguridad (WPA3, etc)</li>
-						<li>Capacidades avanzadas de red:
-							<ul>
-								<li>roaming WiFi (802.11r, 802.11k y 802.11v)</li>
-								<li>VLANs y QoS</li>
-								<li>Múltiples LANS</li>
-								<li>Múltiples WANs (balanced, failover, etc)</li>
-								<li>Multiple SSIDs</li>
-								<li>Firewall avanzado</li>
-							</ul>
-						</li>
-
-
-						<li>Instalar apps en nuestro router:
-							<ul>
-								<li>Adblock</li>
-								<li>OpenVPN/Wireguard</li>
-								<li>DDNS</li>
-								<li>Cliente torrent</li>
-								<li>Docker*</li>
-								<li>Entre muchos otros <a href="https://openwrt.org/packages/start" target="_blank">Ver
-										más</a></li>
-							</ul>
-						</li>
-
-					</ul>
-				</small>
-			</section>
-
-			<section>
-				<h2>¿Cómo se ve OpenWRT? (CLI)</h2>
-				<img src="img/cli.png" width="80%" alt="LuCI" style="border-radius: 10px;">
-			</section>
-
-			<section>
-				<h2>¿Cómo se ve OpenWRT? (GUI)</h2>
-				<img src="img/luci.png" width="70%" alt="LuCI" style="border-radius: 10px;">
-			</section>
-
-			<section>
-				<h2>¿Cómo se ve OpenWRT? (GUI Mobile)</h2>
-				<img src="img/luci_mobile.jpg" width="30%" alt="LuCI" style="border-radius: 10px;">
-			</section>
-
-			<section>
-				<h2>Instalación de OpenWRT</h2>
-				<p>Antes de instalar OpenVPN en nuestro router debemos asegurarnos que el hardware sea compatible.
-					Un flasheo incorrecto puede dañar "brickear" nuestro router.
-
-					<img src="img/bricked_router.png" width="80%" alt="Bricked Router" style="border-radius: 10px;">
-				</p>
-
-
-				<a href="https://toh.openwrt.org/?view=normal" target="_blank">Ver listado</a>
-
-			</section>
-
-			<section>
-				<h2>Instalación de OpenWRT</h2>
-				<p><a href="https://toh.openwrt.org/?view=normal" target="_blank">Listado de hardware compatible</a></p>
-
-				<img src="img/brick01.jpg" width="45%" alt="TOH" style="border-radius: 10px;">
-				<img src="img/brick02.jpg" width="45%" alt="TOH" style="border-radius: 10px;">
-				<small>
-					Recuperación router brickeado
-				</small>
-			</section>
-
-			<section>
-				<h2>¿Consultas?</h2>
-
-			</section>
-
-			<section>
-				<h2>Demo</h2>
-				<p><a href="https://openwrt.org/toh/tp-link/tl-wdr3500_v1" target="_blank">Instalación de OpenWRT en un
-						router TP-Link WDR3500</a></p>
-			</section>
-		</div>
-	</div>
-
-	<script src="dist/reveal.js"></script>
-	<script src="plugin/notes/notes.js"></script>
-	<script src="plugin/markdown/markdown.js"></script>
-	<script src="plugin/highlight/highlight.js"></script>
-	<script>
-		// More info about initialization & config:
-		// - https://revealjs.com/initialization/
-		// - https://revealjs.com/config/
-		Reveal.initialize({
-			hash: true,
-
-			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
-		});
-	</script>
 </body>
 
 </html>
